@@ -1,0 +1,53 @@
+import math
+import sympy as sp
+
+def basic_operations():
+    print("\nBasic Operations")
+    print("1. Addition (+)")
+    print("2. Subtraction (-)")
+    print("3. Multiplication (*)")
+    print("4. Division (/)")
+    print("5. Square Root (sqrt)")
+    print("6. Exponentiation (^)")
+    print("7. Trigonometric Functions (sin, cos, tan)")
+
+def evaluate_expression(expr):
+    try:
+        result = eval(expr, {"__builtins__": None}, {
+            "sqrt": math.sqrt,
+            "pow": math.pow,
+            "sin": math.sin,
+            "cos": math.cos,
+            "tan": math.tan,
+            "pi": math.pi,
+            "e": math.e
+        })
+        return result
+    except Exception as e:
+        return f"Error: {e}"
+
+def main():
+    print("Welcome to the Python Mathematical Calculator!")
+
+    while True:
+        basic_operations()
+        user_input = input("\nEnter your operation or 'exit' to quit: ").strip()
+
+        if user_input.lower() == 'exit':
+            print("Exiting the calculator. Goodbye!")
+            break
+
+        # Handle symbolic expressions using SymPy
+        if any(op in user_input for op in ['sqrt', 'pow', 'sin', 'cos', 'tan']):
+            try:
+                result = sp.sympify(user_input)
+                result = result.evalf()  # Convert to numerical value
+            except Exception as e:
+                result = f"Error: {e}"
+        else:
+            result = evaluate_expression(user_input)
+        
+        print(f"Result: {result}")
+
+if __name__ == "__main__":
+    main()
